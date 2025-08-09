@@ -1,0 +1,35 @@
+
+
+
+ORG 100h
+
+.MODEL SMALL
+.DATA
+GRADES  DD 1234H, 09F0H, 8B2CH, 0A56H, FFFFH
+LOWEST  DD ?
+
+.CODE
+MAIN:
+    MOV AX, @DATA
+    MOV DS, AX
+
+    MOV SI, OFFSET GRADES
+    MOV AX, [SI]
+    MOV CX, 4
+    ADD SI, 2
+
+NEXT:
+    CMP AX, [SI]
+    JBE SKIP
+    MOV AX, [SI]
+SKIP:
+    ADD SI, 2
+    LOOP NEXT
+
+    MOV [LOWEST], AX
+
+    MOV AH, 4CH
+    INT 21H
+
+RET
+END MAIN

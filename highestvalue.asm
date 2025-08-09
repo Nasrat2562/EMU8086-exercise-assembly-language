@@ -1,0 +1,35 @@
+     org 100h
+
+.MODEL SMALL
+.STACK 100h
+
+.DATA
+GRADES  DW 1234H, 09F0H, 8B2CH, 0A56H, 0FFFFH
+HIGHEST DW ?
+
+.CODE
+MAIN:
+    MOV AX, @DATA
+    MOV DS, AX
+
+    MOV SI, OFFSET GRADES
+    MOV AX, [SI]
+    ADD SI, 2
+    MOV CX, 4
+
+NEXT_HIGH:
+    CMP AX, [SI]
+    JAE SKIP
+    MOV AX, [SI]
+
+SKIP:
+    ADD SI, 2
+    LOOP NEXT_HIGH
+
+    MOV HIGHEST, AX
+
+    MOV AH, 4Ch
+    INT 21h
+END MAIN
+
+
